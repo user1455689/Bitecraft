@@ -468,35 +468,20 @@ button:active,
   border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
-  padding: 40px;
+  padding: 24px;
   color: white;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
   gap: 24px;
   box-shadow: var(--shadow-md);
 }
 
-@media (max-width: 768px) {
-  .home-banner {
-    padding: 24px;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    margin-bottom: 24px;
-  }
-}
-
 .banner-content {
-  max-width: 50%;
+  max-width: 100%;
   z-index: 1;
-}
-
-@media (max-width: 768px) {
-  .banner-content {
-    max-width: 100%;
-  }
 }
 
 .banner-tag {
@@ -543,16 +528,7 @@ button:active,
 }
 
 .banner-img-container {
-  width: 40%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .banner-img-container {
-    display: none;
-  }
+  display: none;
 }
 
 .banner-img {
@@ -662,16 +638,9 @@ button:active,
 /* Restaurant / Store Grid Layout */
 .restaurant-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
   margin-bottom: 40px;
-}
-
-@media (max-width: 576px) {
-  .restaurant-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
 }
 
 .restaurant-card {
@@ -805,15 +774,8 @@ button:active,
 /* Product Detail Cards (For menus) */
 .product-list-row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 20px;
-}
-
-@media (max-width: 768px) {
-  .product-list-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .product-card {
@@ -950,16 +912,10 @@ button:active,
 .restaurant-hero {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  height: 250px;
+  height: 180px;
   width: 100%;
   position: relative;
   margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-  .restaurant-hero {
-    height: 180px;
-  }
 }
 
 .restaurant-hero-img {
@@ -976,18 +932,10 @@ button:active,
 
 .restaurant-hero-content {
   position: absolute;
-  bottom: 24px;
-  left: 24px;
-  right: 24px;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
   color: white;
-}
-
-@media (max-width: 768px) {
-  .restaurant-hero-content {
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
-  }
 }
 
 .restaurant-hero-title {
@@ -1077,16 +1025,9 @@ button:active,
 /* Cart Page UI */
 .cart-layout {
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr;
+  gap: 24px;
   align-items: start;
-}
-
-@media (max-width: 992px) {
-  .cart-layout {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
 }
 
 .cart-card-container {
@@ -1361,12 +1302,6 @@ button:active,
   gap: 16px;
 }
 
-@media (max-width: 576px) {
-  .payment-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .payment-card {
   display: flex;
   flex-direction: column;
@@ -1412,20 +1347,14 @@ button:active,
 
 /* Order Tracking View */
 .tracking-wrapper {
-  max-width: 600px;
+  max-width: 100%;
   margin: 0 auto;
   background-color: var(--bg-surface);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
-  padding: 32px;
+  padding: 24px 16px;
   box-shadow: var(--shadow-sm);
   text-align: center;
-}
-
-@media (max-width: 576px) {
-  .tracking-wrapper {
-    padding: 24px 16px;
-  }
 }
 
 .tracking-header {
@@ -1538,16 +1467,9 @@ button:active,
 /* User Profile & Address Manager styling */
 .profile-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 32px;
+  grid-template-columns: 1fr;
+  gap: 24px;
   align-items: start;
-}
-
-@media (max-width: 992px) {
-  .profile-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
 }
 
 .profile-card {
@@ -1810,16 +1732,9 @@ button:active,
 /* Admin Dashboard layout specifics */
 .admin-grid {
   display: grid;
-  grid-template-columns: 1.8fr 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr;
+  gap: 24px;
   align-items: start;
-}
-
-@media (max-width: 992px) {
-  .admin-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
 }
 
 .admin-table-box {
@@ -2487,62 +2402,56 @@ button:active,
 
 /* Mobile Optimization Overrides */
 .mobile-search-bar-wrapper {
-  display: none;
+  display: block;
+  position: sticky;
+  top: 64px; /* Right below the sticky mobile navbar */
+  z-index: 90;
+  background-color: var(--bg-main);
+  padding: 8px 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
   margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-  .mobile-search-bar-wrapper {
-    display: block;
-    position: sticky;
-    top: 64px; /* Right below the sticky mobile navbar */
-    z-index: 90;
-    background-color: var(--bg-main);
-    padding: 8px 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
-  }
-  
-  /* Convert categories horizontal scroll to 2x4 grid on mobile homepage */
-  .categories-scroll {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 12px !important;
-    margin-bottom: 24px !important;
-  }
-  
-  .categories-scroll .category-card {
-    width: 100% !important;
-  }
-  
-  .category-icon-wrapper {
-    width: 52px !important;
-    height: 52px !important;
-  }
-  
-  .category-name {
-    font-size: 0.75rem !important;
-    text-align: center;
-  }
+/* Convert categories horizontal scroll to 2x4 grid on mobile homepage */
+.categories-scroll {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 12px !important;
+  margin-bottom: 24px !important;
+}
 
-  /* Price Drop Zone Horizontal Scroll on Mobile */
-  .price-drop-row {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    gap: 16px !important;
-    padding: 8px 4px !important;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  
-  .price-drop-row::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .price-drop-row .product-card {
-    min-width: 280px !important;
-    max-width: 280px !important;
-    flex-shrink: 0 !important;
-  }
+.categories-scroll .category-card {
+  width: 100% !important;
+}
+
+.category-icon-wrapper {
+  width: 52px !important;
+  height: 52px !important;
+}
+
+.category-name {
+  font-size: 0.75rem !important;
+  text-align: center;
+}
+
+/* Price Drop Zone Horizontal Scroll on Mobile */
+.price-drop-row {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 16px !important;
+  padding: 8px 4px !important;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.price-drop-row::-webkit-scrollbar {
+  display: none;
+}
+
+.price-drop-row .product-card {
+  min-width: 280px !important;
+  max-width: 280px !important;
+  flex-shrink: 0 !important;
 }

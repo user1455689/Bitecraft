@@ -158,15 +158,15 @@ export default function ProductDetailPage() {
         overflow: 'hidden',
         boxShadow: 'var(--shadow-md)',
         display: 'grid',
-        gridTemplateColumns: '1.2fr 1fr',
+        gridTemplateColumns: '1fr',
         alignItems: 'stretch'
       }}>
         {/* Left Side: Large image wrapper */}
         <div style={{
           position: 'relative',
           backgroundColor: '#E2E8F0',
-          minHeight: '320px',
-          height: '100%'
+          minHeight: '240px',
+          height: '240px'
         }}>
           <img 
             src={product.img} 
@@ -180,7 +180,7 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Right Side: Details and checkout add buttons */}
-        <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
+        <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
           <div>
             {restaurant && (
               <Link href={`/restaurant/${restaurant.id}`} style={{
@@ -276,17 +276,7 @@ export default function ProductDetailPage() {
         </div>
       </div>
       
-      {/* CSS overrides for styling column grid on mobile */}
-      <style jsx global>{`
-        @media (max-width: 768px) {
-          div[style*="gridTemplateColumns: 1.2fr 1fr"] {
-            grid-template-columns: 1fr !important;
-          }
-          div[style*="padding: 32px"] {
-            padding: 20px !important;
-          }
-        }
-      `}</style>
+
     </div>
   );
 }

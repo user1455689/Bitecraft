@@ -30,16 +30,47 @@ interface Order {
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user, address, phone, savedAddresses, login, logout, addAddress, updateAddress, updatePhone } = useUser();
+  const { 
+    user, 
+    address, 
+    phone, 
+    savedAddresses, 
+    login, 
+    logout, 
+    addAddress, 
+    deleteAddress, 
+    updateAddress, 
+    updatePhone, 
+    updateProfile 
+  } = useUser();
 
   const [ordersHistory, setOrdersHistory] = useState<Order[]>([]);
   const [profileName, setProfileName] = useState(user.name);
   const [profileEmail, setProfileEmail] = useState(user.email);
   const [profilePhone, setProfilePhone] = useState(phone);
+  const [profileBio, setProfileBio] = useState(user.bio || '');
+  const [profileDob, setProfileDob] = useState(user.dob || '');
+  const [profileGender, setProfileGender] = useState(user.gender || '');
+  const [profileFavFood, setProfileFavFood] = useState(user.favoriteFood || 'pizza');
   
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [newAddressInput, setNewAddressInput] = useState('');
   const [toastMsg, setToastMsg] = useState('');
+
+  // Sync state values with Context loaded values on client mount
+  useEffect(() => {
+    setProfileName(user.name);
+    setProfileEmail(user.email);
+    setProfileBio(user.bio || '');
+    setProfileDob(user.dob || '');
+    setProfileGender(user.gender || '');
+    setProfileFavFood(user.favoriteFood || 'pizza');
+  }, [user]);
+
+  useEffect(() => {
+    setProfilePhone(phone);
+  }, [phone]);
 
   // Fetch Order History (both Supabase orders matching name & local backup history)
   useEffect(() => {
@@ -120,6 +151,12 @@ export default function ProfilePage() {
     e.preventDefault();
     login(profileName, profileEmail);
     updatePhone(profilePhone);
+    updateProfile({
+      bio: profileBio,
+      dob: profileDob,
+      gender: profileGender,
+      favoriteFood: profileFavFood
+    });
     showToast('Profile information saved!');
   };
 
@@ -134,9 +171,38 @@ export default function ProfilePage() {
     }
   };
 
+  const handleDeleteAddress = (e: React.MouseEvent, addr: string) => {
+    e.stopPropagation(); // Avoid selecting deleted address
+    if (confirm('Are you sure you want to delete this address?')) {
+      deleteAddress(addr);
+      showToast('Address deleted!');
+    }
+  };
+
   const handleLogoutClick = () => {
     logout();
     router.push('/auth');
+  };
+
+  const handleSelectPresetAvatar = (preset: string) => {
+    updateProfile({ avatar: preset });
+    showToast('Profile avatar updated!');
+    setShowAvatarModal(false);
+  };
+
+  const handleCustomAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          updateProfile({ avatar: reader.result });
+          showToast('Custom profile picture uploaded!');
+          setShowAvatarModal(false);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const getStatusClass = (status: string) => {
@@ -147,6 +213,19 @@ export default function ProfilePage() {
       case 'delivered': return 'delivered';
       default: return 'pending';
     }
+  };
+
+  const renderAvatarContent = () => {
+    const avatarStr = user.avatar || '/assets/user_avatar.png';
+    if (!avatarStr.startsWith('/') && !avatarStr.startsWith('data:')) {
+      // Emoji representation
+      return (
+        <div className="avatar-emoji-container">
+          {avatarStr}
+        </div>
+      );
+    }
+    return <img src={avatarStr} alt="User profile avatar" className="avatar-img" />;
   };
 
   return (
@@ -162,12 +241,36 @@ export default function ProfilePage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
           <div className="profile-card">
-            <div className="avatar-wrapper">
-              <img src="/assets/user_avatar.png" alt="User profile avatar" className="avatar-img" />
+            <div className="avatar-wrapper" onClick={() => setShowAvatarModal(true)} title="Click to customize avatar">
+              {renderAvatarContent()}
+              <div className="avatar-edit-overlay">
+                <span>📷 Customize</span>
+              </div>
             </div>
+            
             <h3 className="profile-name">{user.isLoggedIn ? user.name : 'Sign In'}</h3>
             <p className="profile-email">{user.isLoggedIn ? user.email : 'To manage addresses and trace checkout history'}</p>
             
+            {user.isLoggedIn && (
+              <>
+                {user.bio && (
+                  <p className="profile-card-bio">"{user.bio}"</p>
+                )}
+                
+                <div className="profile-card-badge-row">
+                  {user.favoriteFood && (
+                    <span className="profile-card-badge fav-food">🍕 {user.favoriteFood}</span>
+                  )}
+                  {user.gender && (
+                    <span className="profile-card-badge gender">👤 {user.gender}</span>
+                  )}
+                  {user.dob && (
+                    <span className="profile-card-badge">📅 {new Date(user.dob).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                  )}
+                </div>
+              </>
+            )}
+
             {user.isLoggedIn ? (
               <button onClick={handleLogoutClick} className="profile-logout-btn">
                 Log Out Profile
@@ -196,26 +299,86 @@ export default function ProfilePage() {
                     required
                   />
                 </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Email Address</label>
+                    <input
+                      type="email"
+                      className="form-input"
+                      value={profileEmail}
+                      onChange={(e) => setProfileEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Contact Phone</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={profilePhone}
+                      onChange={(e) => setProfilePhone(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Date of Birth</label>
+                    <input
+                      type="date"
+                      className="form-input"
+                      value={profileDob}
+                      onChange={(e) => setProfileDob(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Gender</label>
+                    <select
+                      className="form-input"
+                      value={profileGender}
+                      onChange={(e) => setProfileGender(e.target.value)}
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Non-binary">Non-binary</option>
+                      <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div className="form-group">
-                  <label className="form-label">Email Address</label>
-                  <input
-                    type="email"
+                  <label className="form-label">Favorite Cuisine</label>
+                  <select
                     className="form-input"
-                    value={profileEmail}
-                    onChange={(e) => setProfileEmail(e.target.value)}
-                    required
+                    value={profileFavFood}
+                    onChange={(e) => setProfileFavFood(e.target.value)}
+                  >
+                    <option value="burgers">Burgers</option>
+                    <option value="pizza">Pizza</option>
+                    <option value="indian">Indian</option>
+                    <option value="asian">Asian Fusion</option>
+                    <option value="bakery">Bakery & Sweets</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="salad">Salads</option>
+                    <option value="drinks">Drinks & Cafe</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Bio / Profile Greeting</label>
+                  <textarea
+                    className="form-input"
+                    rows={2}
+                    placeholder="Tell us about yourself..."
+                    value={profileBio}
+                    onChange={(e) => setProfileBio(e.target.value)}
+                    style={{ resize: 'vertical' }}
                   />
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Contact Phone</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={profilePhone}
-                    onChange={(e) => setProfilePhone(e.target.value)}
-                    required
-                  />
-                </div>
+
                 <button type="submit" className="form-submit-btn" style={{ width: '100%' }}>
                   Save Profile Info
                 </button>
@@ -263,11 +426,21 @@ export default function ProfilePage() {
                   <span style={{ fontSize: '0.85rem', fontWeight: 500, color: address === addr ? 'var(--primary)' : 'inherit' }}>
                     {addr}
                   </span>
-                  {address === addr && (
-                    <span style={{ fontSize: '0.7rem', backgroundColor: 'var(--primary)', color: 'white', padding: '2px 6px', borderRadius: 'var(--radius-sm)', fontWeight: 700 }}>
-                      Primary
-                    </span>
-                  )}
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    {address === addr && (
+                      <span style={{ fontSize: '0.7rem', backgroundColor: 'var(--primary)', color: 'white', padding: '2px 6px', borderRadius: 'var(--radius-sm)', fontWeight: 700 }}>
+                        Primary
+                      </span>
+                    )}
+                    <button 
+                      onClick={(e) => handleDeleteAddress(e, addr)}
+                      className="address-delete-btn"
+                      title="Delete Address"
+                    >
+                      🗑️
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -358,6 +531,43 @@ export default function ProfilePage() {
                   Save Location
                 </button>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Customize Avatar Modal */}
+      {showAvatarModal && (
+        <div className="modal-backdrop">
+          <div className="modal-container" style={{ maxWidth: '380px' }}>
+            <div className="modal-header">
+              <span className="modal-title">Customize Avatar</span>
+              <button className="modal-close-btn" onClick={() => setShowAvatarModal(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              <label className="avatar-upload-input-label">
+                📁 Upload Custom Picture
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleCustomAvatarUpload} 
+                  style={{ display: 'none' }} 
+                />
+              </label>
+              <div style={{ textAlign: 'center', margin: '14px 0 6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                Or choose a preset theme:
+              </div>
+              <div className="avatar-presets-grid">
+                {['🍕', '🍔', '🍜', '🍰', '🥑', '🥗', '☕', '🍣', '👩‍🍳', '👨‍🍳', '🦁', '🦊'].map((emoji) => (
+                  <button 
+                    key={emoji}
+                    className={`avatar-preset-btn ${user.avatar === emoji ? 'selected' : ''}`}
+                    onClick={() => handleSelectPresetAvatar(emoji)}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

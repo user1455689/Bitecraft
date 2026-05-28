@@ -5,6 +5,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 export interface UserProfile {
   name: string;
   email: string;
+  avatar?: string;
+  bio?: string;
+  dob?: string;
+  gender?: string;
+  favoriteFood?: string;
   isLoggedIn: boolean;
 }
 
@@ -18,14 +23,21 @@ interface UserContextType {
   logout: () => void;
   updateAddress: (newAddr: string) => void;
   addAddress: (newAddr: string) => void;
+  deleteAddress: (addrToDelete: string) => void;
   updatePhone: (newPhone: string) => void;
+  updateProfile: (details: Partial<UserProfile>) => void;
   setActiveOrderId: (id: string | null) => void;
 }
 
 const defaultUser: UserProfile = {
   name: 'Rachal Smith',
   email: 'rachalsmith@gmail.com',
-  isLoggedIn: true // Auto-login for prototype ease, can toggle
+  avatar: '/assets/user_avatar.png',
+  bio: 'Food lover, pizza enthusiast, and regular bite-crafter!',
+  dob: '1995-08-15',
+  gender: 'Female',
+  favoriteFood: 'pizza',
+  isLoggedIn: true
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -65,13 +77,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = (name: string, email: string) => {
-    const newUser = { name, email, isLoggedIn: true };
-    setUser(newUser);
-    localStorage.setItem('bitecraft_user', JSON.stringify(newUser));
+    setUser(prev => {
+      const newUser = { ...prev, name, email, isLoggedIn: true };
+      localStorage.setItem('bitecraft_user', JSON.stringify(newUser));
+      return newUser;
+    });
   };
 
   const logout = () => {
-    const clearedUser = { name: '', email: '', isLoggedIn: false };
+    const clearedUser = { name: '', email: '', avatar: '/assets/user_avatar.png', bio: '', dob: '', gender: '', favoriteFood: '', isLoggedIn: false };
     setUser(clearedUser);
     localStorage.setItem('bitecraft_user', JSON.stringify(clearedUser));
   };
@@ -92,9 +106,29 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('bitecraft_saved_addresses', JSON.stringify(updated));
   };
 
+  const deleteAddress = (addrToDelete: string) => {
+    const updated = savedAddresses.filter(addr => addr !== addrToDelete);
+    setSavedAddresses(updated);
+    localStorage.setItem('bitecraft_saved_addresses', JSON.stringify(updated));
+    
+    if (address === addrToDelete) {
+      const newActive = updated[0] || '';
+      setAddress(newActive);
+      localStorage.setItem('bitecraft_address', newActive);
+    }
+  };
+
   const updatePhone = (newPhone: string) => {
     setPhone(newPhone);
     localStorage.setItem('bitecraft_phone', newPhone);
+  };
+
+  const updateProfile = (details: Partial<UserProfile>) => {
+    setUser(prev => {
+      const updated = { ...prev, ...details };
+      localStorage.setItem('bitecraft_user', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const setActiveOrderId = (id: string | null) => {
@@ -117,7 +151,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       logout,
       updateAddress,
       addAddress,
+      deleteAddress,
       updatePhone,
+      updateProfile,
       setActiveOrderId
     }}>
       {children}

@@ -7,6 +7,7 @@ import { createClient } from '@/utils/supabase/client';
 import { defaultCatalog, CatalogItem } from '@/utils/fallbackData';
 import { useCart } from '@/context/CartContext';
 import { useUser } from '@/context/UserContext';
+import { MapPinIcon, PlusIcon } from '@/components/Icons';
 import MapSelector from '@/components/MapSelector';
 
 export default function CheckoutPage() {
@@ -163,7 +164,7 @@ export default function CheckoutPage() {
 
     // 3. Compile WhatsApp message format
     const targetPhone = "9779746571404";
-    let msg = `*New Order from BiteCraft!* 🍔🛍️\n`;
+    let msg = `*New Order from BiteCraft!*\n`;
     msg += `------------------------------\n`;
     msg += `*Order ID:* ${orderId}\n`;
     msg += `*Customer Name:* ${user.name}\n`;
@@ -182,7 +183,7 @@ export default function CheckoutPage() {
     }
     msg += `*Grand Total:* *$${grandTotal.toFixed(2)}*\n`;
     msg += `------------------------------\n`;
-    msg += `_Sent via Next.js Supabase App_ 📱`;
+    msg += `_Sent via Next.js Supabase App_`;
 
     // WhatsApp Direct Link
     const waLink = `https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`;
@@ -220,8 +221,8 @@ export default function CheckoutPage() {
           <div>
             {/* Address Section */}
             <div className="checkout-section-box">
-              <h3 className="checkout-section-title">
-                📍 1. Delivery Address
+              <h3 className="checkout-section-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <MapPinIcon size={18} /> 1. Delivery Address
               </h3>
               
               <div className="checkout-address-list">
@@ -246,8 +247,8 @@ export default function CheckoutPage() {
                             Address Option {idx + 1}
                           </span>
                           {hasGps && (
-                            <span style={{ fontSize: '0.65rem', backgroundColor: 'var(--primary-light)', color: 'var(--primary)', padding: '2px 6px', borderRadius: 'var(--radius-sm)', fontWeight: 700 }}>
-                              📍 Map Pinned
+                            <span style={{ fontSize: '0.65rem', backgroundColor: 'var(--primary-light)', color: 'var(--primary)', padding: '2px 6px', borderRadius: 'var(--radius-sm)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                              <MapPinIcon size={10} /> Map Pinned
                             </span>
                           )}
                         </div>
@@ -264,17 +265,18 @@ export default function CheckoutPage() {
                     type="button" 
                     className="add-address-trigger"
                     onClick={() => setShowAddressModal(true)}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                   >
-                    ➕ Enter Address Text
+                    <PlusIcon size={12} /> Enter Address Text
                   </button>
 
                   <button 
                     type="button" 
                     className="add-address-trigger"
                     onClick={() => setShowMap(true)}
-                    style={{ color: '#1976D2' }}
+                    style={{ color: '#1976D2', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                   >
-                    🗺️ Select on Interactive Map
+                    <MapPinIcon size={12} /> Select on Interactive Map
                   </button>
                 </div>
               </div>
@@ -282,8 +284,8 @@ export default function CheckoutPage() {
 
             {/* Contact Details */}
             <div className="checkout-section-box">
-              <h3 className="checkout-section-title">
-                📞 2. Contact Phone Number
+              <h3 className="checkout-section-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 2. Contact Phone Number
               </h3>
               
               <div className="form-group" style={{ margin: 0 }}>
@@ -300,8 +302,8 @@ export default function CheckoutPage() {
 
             {/* Payment Option */}
             <div className="checkout-section-box">
-              <h3 className="checkout-section-title">
-                💳 3. Select Payment Method
+              <h3 className="checkout-section-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> 3. Select Payment Method
               </h3>
               
               <div className="payment-grid">
@@ -309,7 +311,9 @@ export default function CheckoutPage() {
                   className={`payment-card ${paymentMethod === 'COD' ? 'selected' : ''}`}
                   onClick={() => setPaymentMethod('COD')}
                 >
-                  <div className="payment-icon-box">💵</div>
+                  <div className="payment-icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                  </div>
                   <div className="payment-title">Cash on Delivery (COD)</div>
                   <div className="payment-desc">Pay by Cash or scan QR code when your rider arrives.</div>
                 </div>
@@ -318,7 +322,9 @@ export default function CheckoutPage() {
                   className={`payment-card ${paymentMethod === 'Online' ? 'selected' : ''}`}
                   onClick={() => setPaymentMethod('Online')}
                 >
-                  <div className="payment-icon-box">💳</div>
+                  <div className="payment-icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                  </div>
                   <div className="payment-title">Online Payment</div>
                   <div className="payment-desc">We support Visa, Mastercard, and Mobile Wallets.</div>
                 </div>
@@ -385,7 +391,7 @@ export default function CheckoutPage() {
                   Creating Order...
                 </>
               ) : (
-                `Place Order ($${grandTotal.toFixed(2)}) 🛍️`
+                `Place Order ($${grandTotal.toFixed(2)})`
               )}
             </button>
 

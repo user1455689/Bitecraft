@@ -7,6 +7,7 @@ import { createClient } from '@/utils/supabase/client';
 import { defaultRestaurants, defaultCategories, defaultCatalog, Restaurant, CatalogItem } from '@/utils/fallbackData';
 import { useUser } from '@/context/UserContext';
 import { useCart } from '@/context/CartContext';
+import { StarIcon, ClockIcon, MapPinIcon, BellIcon, PlateForkIcon, NoodlesIcon, SparklesIcon, WaveIcon } from '@/components/Icons';
 
 export default function Home() {
   const router = useRouter();
@@ -126,19 +127,18 @@ export default function Home() {
       {/* Welcome Row */}
       <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
-            Hello, {user.isLoggedIn ? user.name : 'Foodie'}! 👋
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            Hello, {user.isLoggedIn ? user.name : 'Foodie'}! <WaveIcon size={24} />
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             What are we ordering today?
           </p>
         </div>
         <div className="header-delivery-badge">
-          <span>⚡</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" style={{ color: '#FFD600', marginRight: '4px' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span>12 MINS DELIVERY</span>
         </div>
       </div>
-
       {/* Promos Banner Slideshow */}
       <div className="playful-carousel-container">
         {/* Slide 0: Summer Mode ON */}
@@ -150,28 +150,28 @@ export default function Home() {
         >
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <span className="banner-tag" style={{ backgroundColor: '#2E7D32', color: 'white' }}>LIVE SEASONAL</span>
-            <h3 className="playful-banner-title">Summer Mode ON ☀️</h3>
+            <h3 className="playful-banner-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>Summer Mode ON <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ color: '#FFB300' }}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.72" x2="5.64" y2="18.3"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></h3>
             <p className="playful-banner-subtitle">Get refreshing beverages, cool ice creams & fresh summer fruits!</p>
-            <div style={{ fontSize: '0.85rem', color: '#1B4332' }}>
-              ⚡ Delivered cold in <strong>10 mins</strong>
+            <div style={{ fontSize: '0.85rem', color: '#1B4332', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Delivered cold in <strong>10 mins</strong>
             </div>
           </div>
           <div className="banner-grid-items">
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🍹</span>
+              <img src="/assets/categories/drinks_cat.png" alt="Beverages" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
               <span className="mini-card-label">Beverages</span>
             </div>
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🍦</span>
+              <img src="/assets/categories/bakery_cat.png" alt="Ice Creams" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
               <span className="mini-card-label">Ice Creams</span>
             </div>
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🥥</span>
+              <img src="/assets/categories/salad_cat.png" alt="Fruits" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
               <span className="mini-card-label">Fruits</span>
             </div>
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🏠</span>
-              <span className="mini-card-label">Home Essentials</span>
+              <img src="/assets/categories/grocery_cat.png" alt="Home Essentials" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+              <span className="mini-card-label">Home Needs</span>
             </div>
           </div>
         </div>
@@ -185,27 +185,27 @@ export default function Home() {
         >
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <span className="banner-tag" style={{ backgroundColor: '#D50000', color: 'white' }}>FRESH ARRIVAL</span>
-            <h3 className="playful-banner-title">Pure Mango Bliss 🥭</h3>
+            <h3 className="playful-banner-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>Pure Mango Bliss <img src="/assets/mango_icon.png" alt="Mango" style={{ width: '24px', height: '24px', objectFit: 'contain' }} /></h3>
             <p className="playful-banner-subtitle">Direct from orchards: Sweet Alphonso, Kesar, and ripe organic mangoes!</p>
-            <div style={{ fontSize: '0.85rem', color: '#5D2A00' }}>
-              ⭐ Certified sweet & juice-ready!
+            <div style={{ fontSize: '0.85rem', color: '#5D2A00', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <StarIcon size={14} /> Certified sweet & juice-ready!
             </div>
           </div>
           <div className="banner-grid-items">
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🥭</span>
+              <img src="/assets/mango_icon.png" alt="Fresh Mangoes" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
               <span className="mini-card-label">Fresh Mangoes</span>
             </div>
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🍧</span>
+              <img src="/assets/categories/bakery_cat.png" alt="Gelato" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
               <span className="mini-card-label">Gelato</span>
             </div>
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🥤</span>
+              <img src="/assets/categories/drinks_cat.png" alt="Mango Shakes" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
               <span className="mini-card-label">Mango Shakes</span>
             </div>
             <div className="banner-mini-card">
-              <span className="mini-card-icon">🍨</span>
+              <img src="/assets/categories/bakery_cat.png" alt="Custards" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
               <span className="mini-card-label">Custards</span>
             </div>
           </div>
@@ -299,8 +299,8 @@ export default function Home() {
               </h3>
             </div>
             {filteredRestaurants.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '40px 20px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-                <span style={{ fontSize: '2.5rem' }}>🍽️</span>
+              <div style={{ textAlign: 'center', padding: '40px 20px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                <PlateForkIcon size={40} style={{ color: 'var(--text-muted)' }} />
                 <h4 style={{ fontWeight: 700, marginTop: '12px' }}>No outlets found</h4>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '4px' }}>Try switching category filter to view other restaurants.</p>
               </div>
@@ -316,8 +316,8 @@ export default function Home() {
           </div>
           {/* Price Drop Zone */}
           <div style={{ marginBottom: '36px' }}>
-            <div className="price-drop-header">
-              <span className="price-drop-icon" style={{ fontSize: '1.6rem' }}>🔔</span>
+            <div className="price-drop-header" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <BellIcon size={28} style={{ color: 'var(--primary)' }} />
               <h3 className="section-title" style={{ margin: 0 }}>Price Drop Zone</h3>
             </div>
             <div className="product-list-row">
@@ -377,8 +377,8 @@ export default function Home() {
               </h3>
             </div>
             {filteredCatalog.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '40px 20px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-                <span style={{ fontSize: '2.5rem' }}>🍲</span>
+              <div style={{ textAlign: 'center', padding: '40px 20px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                <NoodlesIcon size={40} style={{ color: 'var(--text-muted)' }} />
                 <h4 style={{ fontWeight: 700, marginTop: '12px' }}>No items found</h4>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '4px' }}>Try changing the category to see other products.</p>
               </div>
@@ -430,7 +430,13 @@ export default function Home() {
       {/* Floating Scooter Progress Bar */}
       {subtotal > 0 && (
         <div className="scooter-progress-container">
-          <span style={{ fontSize: '1.2rem' }}>{subtotal >= 15 ? '🎉' : '🛵'}</span>
+          <span style={{ display: 'flex', alignItems: 'center' }}>
+            {subtotal >= 15 ? (
+              <SparklesIcon size={24} style={{ color: '#FFB300' }} />
+            ) : (
+              <img src="/assets/delivery_scooter.png" alt="Scooter" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+            )}
+          </span>
           <div className="scooter-progress-bar-bg">
             <div 
               className="scooter-progress-bar-fill"
@@ -440,7 +446,11 @@ export default function Home() {
               className="scooter-icon-marker"
               style={{ left: `${Math.min(100, (subtotal / 15) * 100)}%` }}
             >
-              {subtotal >= 15 ? '🛵💨' : '🛵'}
+              <img 
+                src="/assets/delivery_scooter.png" 
+                alt="Delivery Scooter" 
+                style={{ width: '32px', height: '32px', objectFit: 'contain' }} 
+              />
             </span>
           </div>
           <span className="scooter-progress-text">
@@ -456,7 +466,11 @@ export default function Home() {
       {cartCount > 0 && (
         <Link href="/cart">
           <div className="floating-cart-pill">
-            <span className="floating-cart-icon">🛒</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="floating-cart-icon">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
             <span>{cartCount} {cartCount === 1 ? 'item' : 'items'} • ${subtotal.toFixed(2)}</span>
             <span className="floating-cart-arrow">→</span>
           </div>
@@ -518,14 +532,14 @@ function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
         <p className="restaurant-desc">{restaurant.description}</p>
         
         <div className="restaurant-meta">
-          <div className="meta-item rating-badge">
-            ⭐ {restaurant.rating.toFixed(1)}
+          <div className="meta-item rating-badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <StarIcon size={12} /> {restaurant.rating.toFixed(1)}
           </div>
-          <div className="meta-item">
-            ⏱️ {restaurant.delivery_time}
+          <div className="meta-item" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <ClockIcon size={12} /> {restaurant.delivery_time}
           </div>
-          <div className="meta-item">
-            📍 {restaurant.distance}
+          <div className="meta-item" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <MapPinIcon size={12} /> {restaurant.distance}
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
+import { GiftIcon, SparklesIcon } from '@/components/Icons';
 
 export default function OffersPage() {
   const { applyCoupon, couponCode, couponApplied } = useCart();
@@ -83,8 +84,8 @@ export default function OffersPage() {
         })}
       </div>
 
-      <div style={{ marginTop: '40px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-lg)', border: '1px dashed var(--border-color)', padding: '24px', textAlign: 'center' }}>
-        <span style={{ fontSize: '2rem' }}>🎁</span>
+      <div style={{ marginTop: '40px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-lg)', border: '1px dashed var(--border-color)', padding: '24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+        <GiftIcon size={40} style={{ color: 'var(--primary)' }} />
         <h4 style={{ fontWeight: 700, marginTop: '10px' }}>Looking for custom discounts?</h4>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '4px' }}>Keep checking our offers page or sign up for notifications to receive personalized codes direct to your email inbox!</p>
         <Link href="/profile">
@@ -96,8 +97,8 @@ export default function OffersPage() {
 
       {/* Toast Notifier */}
       {toastMsg && (
-        <div className="toast-msg">
-          <span>🎉</span> {toastMsg}
+        <div className="toast-msg" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          <SparklesIcon size={14} /> {toastMsg}
         </div>
       )}
     </div>

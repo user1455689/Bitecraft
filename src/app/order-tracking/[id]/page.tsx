@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
+import { SearchIcon } from '@/components/Icons';
 
 interface OrderItem {
   id: string;
@@ -146,8 +147,8 @@ export default function OrderTrackingPage() {
 
   if (!order) {
     return (
-      <div style={{ textAlign: 'center', padding: '80px 16px', maxWidth: '500px', margin: '0 auto' }}>
-        <span style={{ fontSize: '3rem' }}>🔍</span>
+      <div style={{ textAlign: 'center', padding: '80px 16px', maxWidth: '500px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+        <SearchIcon size={64} style={{ color: 'var(--text-muted)' }} />
         <h3 style={{ fontWeight: 800, marginTop: '20px' }}>Order not found</h3>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '8px' }}>
           We could not find order number "{orderId}" in database tables. Let's find your order in profile history or place a new order.
@@ -277,9 +278,9 @@ export default function OrderTrackingPage() {
               window.open(`https://wa.me/9779746571404?text=${encodeURIComponent(msg)}`, '_blank');
             }} 
             className="checkout-btn" 
-            style={{ background: '#25D366', padding: '12px', flex: 1 }}
+            style={{ background: '#25D366', padding: '12px', flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
           >
-            Chat with Rider 💬
+            Chat with Rider
           </button>
         </div>
 

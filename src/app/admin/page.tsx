@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { defaultRestaurants, defaultCatalog, Restaurant, CatalogItem, getSupabaseFallbackString } from '@/utils/fallbackData';
+import { MapPinIcon, PlusIcon, SparklesIcon } from '@/components/Icons';
 import MapSelector from '@/components/MapSelector';
 
 interface OrderItem {
@@ -398,7 +399,7 @@ export default function AdminPage() {
               cursor: 'pointer'
             }}
           >
-            {showSqlDoc ? 'Hide SQL Database Setup Script' : 'Show SQL Database Setup Script 📋'}
+            {showSqlDoc ? 'Hide SQL Database Setup Script' : 'Show SQL Database Setup Script'}
           </button>
 
           {showSqlDoc && (
@@ -473,10 +474,10 @@ export default function AdminPage() {
                                     border: '1px solid var(--primary)',
                                     display: 'inline-flex',
                                     alignItems: 'center',
-                                    gap: '2px'
+                                    gap: '4px'
                                   }}
                                 >
-                                  🗺️ View Map
+                                  <MapPinIcon size={10} /> View Map
                                 </button>
                               )}
                             </div>
@@ -532,10 +533,13 @@ export default function AdminPage() {
                   fontSize: '0.75rem',
                   fontWeight: 700,
                   padding: '6px 12px',
-                  borderRadius: 'var(--radius-sm)'
+                  borderRadius: 'var(--radius-sm)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}
               >
-                ➕ Add Dish
+                <PlusIcon size={12} /> Add Dish
               </button>
             </div>
 
@@ -689,8 +693,8 @@ export default function AdminPage() {
 
         {/* Toast Notifier */}
         {toastMsg && (
-          <div className="toast-msg">
-            <span>⚙️</span> {toastMsg}
+          <div className="toast-msg" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <SparklesIcon size={14} /> {toastMsg}
           </div>
         )}
       </div>

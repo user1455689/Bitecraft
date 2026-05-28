@@ -6,6 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { defaultRestaurants, defaultCatalog, Restaurant, CatalogItem } from '@/utils/fallbackData';
 import { useCart } from '@/context/CartContext';
+import { SearchIcon, StarIcon, ClockIcon, MapPinIcon } from '@/components/Icons';
 
 function SearchContent() {
   const router = useRouter();
@@ -163,7 +164,10 @@ function SearchContent() {
                       borderRadius: 'var(--radius-full)',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      transition: 'all var(--transition-fast)'
+                      transition: 'all var(--transition-fast)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
                     }}
                     onMouseOver={(e) => {
                       e.currentTarget.style.borderColor = 'var(--primary)';
@@ -174,7 +178,7 @@ function SearchContent() {
                       e.currentTarget.style.color = 'inherit';
                     }}
                   >
-                    🔍 {keyword}
+                    <SearchIcon size={12} /> {keyword}
                   </button>
                 ))}
               </div>
@@ -182,8 +186,8 @@ function SearchContent() {
           ) : (
             <div>
               {!hasResults ? (
-                <div style={{ textAlign: 'center', padding: '60px 16px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '2.5rem' }}>🔍</span>
+                <div style={{ textAlign: 'center', padding: '60px 16px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                  <SearchIcon size={48} style={{ color: 'var(--text-muted)' }} />
                   <h4 style={{ fontWeight: 700, marginTop: '16px' }}>No matches found</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '6px' }}>We couldn't find any dishes or stores matching "{query}". Check spelling or try a different term.</p>
                 </div>
@@ -200,15 +204,15 @@ function SearchContent() {
                             <div className="restaurant-img-container">
                               <img src={restaurant.img} alt={restaurant.name} className="restaurant-img" />
                             </div>
-                            <div className="restaurant-info">
-                              <h4 className="restaurant-name">{restaurant.name}</h4>
-                              <p className="restaurant-desc">{restaurant.description}</p>
-                              <div className="restaurant-meta">
-                                <div className="meta-item rating-badge">⭐ {restaurant.rating.toFixed(1)}</div>
-                                <div className="meta-item">⏱️ {restaurant.delivery_time}</div>
-                                <div className="meta-item">📍 {restaurant.distance}</div>
+                              <div className="restaurant-info">
+                                <h4 className="restaurant-name">{restaurant.name}</h4>
+                                <p className="restaurant-desc">{restaurant.description}</p>
+                                <div className="restaurant-meta">
+                                  <div className="meta-item rating-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><StarIcon size={12} /> {restaurant.rating.toFixed(1)}</div>
+                                  <div className="meta-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><ClockIcon size={12} /> {restaurant.delivery_time}</div>
+                                  <div className="meta-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><MapPinIcon size={12} /> {restaurant.distance}</div>
+                                </div>
                               </div>
-                            </div>
                           </Link>
                         ))}
                       </div>

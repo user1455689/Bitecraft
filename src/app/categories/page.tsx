@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { defaultRestaurants, defaultCategories, Restaurant } from '@/utils/fallbackData';
+import { PlateForkIcon, LeafIcon, StarIcon, ClockIcon, MapPinIcon } from '@/components/Icons';
 
 function CategoriesContent() {
   const searchParams = useSearchParams();
@@ -78,8 +79,8 @@ function CategoriesContent() {
             transition: 'all var(--transition-fast)'
           }}
         >
-          <div style={{ width: '60px', height: '60px', overflow: 'hidden', borderRadius: '50%', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px', fontSize: '1.6rem' }}>
-            🍽️
+          <div style={{ width: '60px', height: '60px', overflow: 'hidden', borderRadius: '50%', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
+            <PlateForkIcon size={28} style={{ color: !selectedCat ? 'var(--primary)' : 'var(--text-muted)' }} />
           </div>
           <span style={{ fontSize: '0.85rem', fontWeight: 700, color: !selectedCat ? 'var(--primary)' : 'var(--text-main)' }}>All Outlets</span>
         </div>
@@ -130,8 +131,8 @@ function CategoriesContent() {
       ) : (
         <>
           {filteredRestaurants.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '48px 16px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-              <span style={{ fontSize: '2.5rem' }}>🍃</span>
+            <div style={{ textAlign: 'center', padding: '48px 16px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+              <LeafIcon size={40} style={{ color: 'var(--text-muted)' }} />
               <h4 style={{ fontWeight: 700, marginTop: '12px' }}>No outlets found</h4>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '4px' }}>There are no outlets matching this category filter currently.</p>
             </div>
@@ -146,9 +147,9 @@ function CategoriesContent() {
                     <h4 className="restaurant-name">{restaurant.name}</h4>
                     <p className="restaurant-desc">{restaurant.description}</p>
                     <div className="restaurant-meta">
-                      <div className="meta-item rating-badge">⭐ {restaurant.rating.toFixed(1)}</div>
-                      <div className="meta-item">⏱️ {restaurant.delivery_time}</div>
-                      <div className="meta-item">📍 {restaurant.distance}</div>
+                      <div className="meta-item rating-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><StarIcon size={12} /> {restaurant.rating.toFixed(1)}</div>
+                      <div className="meta-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><ClockIcon size={12} /> {restaurant.delivery_time}</div>
+                      <div className="meta-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><MapPinIcon size={12} /> {restaurant.distance}</div>
                     </div>
                   </div>
                 </Link>

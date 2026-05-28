@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { defaultRestaurants, defaultCatalog, Restaurant, CatalogItem } from '@/utils/fallbackData';
 import { useCart } from '@/context/CartContext';
+import { StarIcon, ClockIcon, MapPinIcon, NoodlesIcon } from '@/components/Icons';
 
 export default function RestaurantPage() {
   const params = useParams();
@@ -110,8 +111,8 @@ export default function RestaurantPage() {
 
   if (!restaurant) {
     return (
-      <div style={{ textAlign: 'center', padding: '60px 16px' }}>
-        <span style={{ fontSize: '3rem' }}>😭</span>
+      <div style={{ textAlign: 'center', padding: '60px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+        <NoodlesIcon size={48} style={{ color: 'var(--text-muted)' }} />
         <h3 style={{ fontWeight: 800, marginTop: '20px' }}>Store not found</h3>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>We could not locate this restaurant or grocery outlet.</p>
         <button 
@@ -155,15 +156,15 @@ export default function RestaurantPage() {
         <div className="restaurant-quick-stats">
           <div className="quick-stat-item">
             <span className="quick-stat-label">Rating</span>
-            <span className="quick-stat-value" style={{ color: '#4CAF50' }}>⭐ {restaurant.rating.toFixed(1)}</span>
+            <span className="quick-stat-value" style={{ color: '#4CAF50', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><StarIcon size={12} /> {restaurant.rating.toFixed(1)}</span>
           </div>
           <div className="quick-stat-item" style={{ borderLeft: '1px solid var(--border-color)', borderRight: '1px solid var(--border-color)', padding: '0 24px' }}>
             <span className="quick-stat-label">Delivery Time</span>
-            <span className="quick-stat-value">⏱️ {restaurant.delivery_time}</span>
+            <span className="quick-stat-value" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><ClockIcon size={12} /> {restaurant.delivery_time}</span>
           </div>
           <div className="quick-stat-item">
             <span className="quick-stat-label">Distance</span>
-            <span className="quick-stat-value">📍 {restaurant.distance}</span>
+            <span className="quick-stat-value" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><MapPinIcon size={12} /> {restaurant.distance}</span>
           </div>
         </div>
 
@@ -194,8 +195,8 @@ export default function RestaurantPage() {
         </h3>
 
         {filteredItems.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px 16px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-            <span style={{ fontSize: '2rem' }}>🥗</span>
+          <div style={{ textAlign: 'center', padding: '40px 16px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+            <NoodlesIcon size={40} style={{ color: 'var(--text-muted)' }} />
             <h4 style={{ fontWeight: 700, marginTop: '12px' }}>No items in this section</h4>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>We don't have dishes loaded in this menu segment currently.</p>
           </div>
@@ -256,7 +257,7 @@ export default function RestaurantPage() {
             <p style={{ fontSize: '0.75rem', opacity: 0.9 }}>Checkout your items</p>
           </div>
           <Link href="/cart" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}>
-            View Cart 🛍️
+            View Cart
           </Link>
         </div>
       )}

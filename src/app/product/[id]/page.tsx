@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { defaultCatalog, defaultRestaurants, Restaurant, CatalogItem } from '@/utils/fallbackData';
 import { useCart } from '@/context/CartContext';
+import { MapPinIcon, StarIcon, ClockIcon, NoodlesIcon } from '@/components/Icons';
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -106,8 +107,8 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div style={{ textAlign: 'center', padding: '80px 16px' }}>
-        <span style={{ fontSize: '3rem' }}>🧐</span>
+      <div style={{ textAlign: 'center', padding: '80px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+        <NoodlesIcon size={48} style={{ color: 'var(--text-muted)' }} />
         <h3 style={{ fontWeight: 800, marginTop: '20px' }}>Dish not found</h3>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '8px' }}>This item may have been removed or is currently unavailable.</p>
         <button 
@@ -188,10 +189,12 @@ export default function ProductDetailPage() {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
-                display: 'inline-block',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
                 marginBottom: '8px'
               }}>
-                🏪 {restaurant.name} {"→"}
+                <MapPinIcon size={12} /> {restaurant.name} {"→"}
               </Link>
             )}
 
@@ -225,10 +228,10 @@ export default function ProductDetailPage() {
             </div>
             
             {restaurant && (
-              <div style={{ display: 'flex', gap: '12px', fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>
-                <span>🛵 Delivery: <strong>{restaurant.delivery_time}</strong></span>
+              <div style={{ display: 'flex', gap: '12px', fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px', alignItems: 'center' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><ClockIcon size={12} /> Delivery: <strong>{restaurant.delivery_time}</strong></span>
                 <span>•</span>
-                <span>⭐ Rating: <strong>{restaurant.rating}</strong></span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><StarIcon size={12} /> Rating: <strong>{restaurant.rating}</strong></span>
               </div>
             )}
           </div>
@@ -265,7 +268,7 @@ export default function ProductDetailPage() {
             {itemQty > 0 && (
               <Link href="/cart">
                 <button className="checkout-btn" style={{ background: 'var(--text-main)', padding: '12px 24px', fontSize: '0.9rem' }}>
-                  Go to Cart 🛍️
+                  Go to Cart
                 </button>
               </Link>
             )}

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { defaultCatalog, CatalogItem } from '@/utils/fallbackData';
 import { useCart } from '@/context/CartContext';
+import { CartIcon, SparklesIcon } from '@/components/Icons';
 
 export default function CartPage() {
   const router = useRouter();
@@ -84,8 +85,8 @@ export default function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div style={{ textAlign: 'center', padding: '80px 16px', maxWidth: '500px', margin: '0 auto' }}>
-        <span style={{ fontSize: '4rem' }}>🛒</span>
+      <div style={{ textAlign: 'center', padding: '80px 16px', maxWidth: '500px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+        <CartIcon size={64} style={{ color: 'var(--text-muted)' }} />
         <h2 style={{ fontWeight: 800, marginTop: '24px' }}>Your cart is empty</h2>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '8px', lineHeight: 1.5 }}>
           Looks like you haven't added anything to your cart yet. Let's find some delicious meals or daily grocery essentials!
@@ -168,8 +169,8 @@ export default function CartPage() {
                 <button type="button" onClick={handleApplyCoupon} className="coupon-btn">Apply</button>
               </form>
             ) : (
-              <div className="applied-coupon-tag">
-                <span>🏷️ Code {couponCode} (50% Off) Active!</span>
+              <div className="applied-coupon-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><SparklesIcon size={14} /> Code {couponCode} (50% Off) Active!</span>
                 <span className="applied-coupon-remove" onClick={handleRemoveCoupon}>Remove</span>
               </div>
             )}

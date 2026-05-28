@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
+import { AlertIcon } from '@/components/Icons';
 
 export default function AuthPage() {
   const router = useRouter();
@@ -72,9 +73,12 @@ export default function AuthPage() {
           borderRadius: 'var(--radius-sm)',
           fontSize: '0.8rem',
           fontWeight: 600,
-          marginBottom: '16px'
+          marginBottom: '16px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
         }}>
-          ⚠️ {errorMsg}
+          <AlertIcon size={16} /> {errorMsg}
         </div>
       )}
 

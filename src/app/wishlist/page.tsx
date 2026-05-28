@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { defaultRestaurants, Restaurant } from '@/utils/fallbackData';
+import { HeartIcon, StarIcon, ClockIcon, MapPinIcon } from '@/components/Icons';
 
 export default function WishlistPage() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -76,8 +77,8 @@ export default function WishlistPage() {
       </div>
 
       {favoriteRestaurants.length === 0 ? (
-        <div className="wishlist-empty">
-          <span style={{ fontSize: '3.5rem' }}>❤️</span>
+        <div className="wishlist-empty" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+          <HeartIcon size={64} style={{ color: 'var(--primary)' }} />
           <h3 style={{ fontWeight: 800, marginTop: '20px' }}>Your Wishlist is empty</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '8px', lineHeight: 1.5 }}>
             Tap the heart icon on any restaurant or grocery card to save them here for quick access later!
@@ -105,15 +106,15 @@ export default function WishlistPage() {
               <div className="restaurant-img-container">
                 <img src={restaurant.img} alt={restaurant.name} className="restaurant-img" />
               </div>
-              <div className="restaurant-info">
-                <h4 className="restaurant-name">{restaurant.name}</h4>
-                <p className="restaurant-desc">{restaurant.description}</p>
-                <div className="restaurant-meta">
-                  <div className="meta-item rating-badge">⭐ {restaurant.rating.toFixed(1)}</div>
-                  <div className="meta-item">⏱️ {restaurant.delivery_time}</div>
-                  <div className="meta-item">📍 {restaurant.distance}</div>
+                <div className="restaurant-info">
+                  <h4 className="restaurant-name">{restaurant.name}</h4>
+                  <p className="restaurant-desc">{restaurant.description}</p>
+                  <div className="restaurant-meta">
+                    <div className="meta-item rating-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><StarIcon size={12} /> {restaurant.rating.toFixed(1)}</div>
+                    <div className="meta-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><ClockIcon size={12} /> {restaurant.delivery_time}</div>
+                    <div className="meta-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><MapPinIcon size={12} /> {restaurant.distance}</div>
+                  </div>
                 </div>
-              </div>
             </Link>
           ))}
         </div>

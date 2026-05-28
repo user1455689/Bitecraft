@@ -5,6 +5,20 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useUser } from '@/context/UserContext';
 import { createClient } from '@/utils/supabase/client';
+import { StarIcon, PlusIcon, TrashIcon, PackageIcon, SparklesIcon, FolderIcon, CameraIcon, UserIcon, CalendarIcon } from '@/components/Icons';
+
+const avatarPresets = [
+  { id: 'default', img: '/assets/user_avatar.png', label: 'Default' },
+  { id: 'mango', img: '/assets/mango_icon.png', label: 'Mango' },
+  { id: 'pizza', img: '/assets/categories/pizza_cat.png', label: 'Pizza' },
+  { id: 'burger', img: '/assets/categories/burger_cat.png', label: 'Burger' },
+  { id: 'bakery', img: '/assets/categories/bakery_cat.png', label: 'Bakery' },
+  { id: 'drinks', img: '/assets/categories/drinks_cat.png', label: 'Drinks' },
+  { id: 'indian', img: '/assets/categories/indian_cat.png', label: 'Curry' },
+  { id: 'asian', img: '/assets/categories/asian_cat.png', label: 'Noodles' },
+  { id: 'salad', img: '/assets/categories/salad_cat.png', label: 'Salad' },
+  { id: 'grocery', img: '/assets/categories/grocery_cat.png', label: 'Groceries' }
+];
 
 interface OrderItem {
   id: string;
@@ -244,7 +258,7 @@ export default function ProfilePage() {
             <div className="avatar-wrapper" onClick={() => setShowAvatarModal(true)} title="Click to customize avatar">
               {renderAvatarContent()}
               <div className="avatar-edit-overlay">
-                <span>📷 Customize</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><CameraIcon size={14} /> Customize</span>
               </div>
             </div>
             
@@ -259,13 +273,13 @@ export default function ProfilePage() {
                 
                 <div className="profile-card-badge-row">
                   {user.favoriteFood && (
-                    <span className="profile-card-badge fav-food">🍕 {user.favoriteFood}</span>
+                    <span className="profile-card-badge fav-food" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><StarIcon size={12} /> {user.favoriteFood}</span>
                   )}
                   {user.gender && (
-                    <span className="profile-card-badge gender">👤 {user.gender}</span>
+                    <span className="profile-card-badge gender" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><UserIcon size={12} /> {user.gender}</span>
                   )}
                   {user.dob && (
-                    <span className="profile-card-badge">📅 {new Date(user.dob).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                    <span className="profile-card-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><CalendarIcon size={12} /> {new Date(user.dob).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
                   )}
                 </div>
               </>
@@ -396,9 +410,9 @@ export default function ProfilePage() {
               <h4 style={{ fontWeight: 700 }}>Saved Addresses Catalog</h4>
               <button 
                 onClick={() => setShowAddressModal(true)}
-                style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '0.8rem' }}
+                style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
               >
-                ➕ Add Address
+                <PlusIcon size={12} /> Add Address
               </button>
             </div>
 
@@ -437,8 +451,9 @@ export default function ProfilePage() {
                       onClick={(e) => handleDeleteAddress(e, addr)}
                       className="address-delete-btn"
                       title="Delete Address"
+                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
                     >
-                      🗑️
+                      <TrashIcon size={14} />
                     </button>
                   </div>
                 </div>
@@ -451,8 +466,8 @@ export default function ProfilePage() {
             <h4 style={{ fontWeight: 700, marginBottom: '16px' }}>Placed Order Logs</h4>
             
             {ordersHistory.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '32px 16px', color: 'var(--text-muted)' }}>
-                <span style={{ fontSize: '2rem' }}>📦</span>
+              <div style={{ textAlign: 'center', padding: '32px 16px', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                <PackageIcon size={40} style={{ color: 'var(--text-muted)' }} />
                 <p style={{ marginTop: '10px', fontSize: '0.85rem' }}>No orders found in checkout history.</p>
               </div>
             ) : (
@@ -500,8 +515,8 @@ export default function ProfilePage() {
 
       {/* Toast Notifier */}
       {toastMsg && (
-        <div className="toast-msg">
-          <span>✨</span> {toastMsg}
+        <div className="toast-msg" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          <SparklesIcon size={14} /> {toastMsg}
         </div>
       )}
 
@@ -545,8 +560,8 @@ export default function ProfilePage() {
               <button className="modal-close-btn" onClick={() => setShowAvatarModal(false)}>×</button>
             </div>
             <div className="modal-body">
-              <label className="avatar-upload-input-label">
-                📁 Upload Custom Picture
+              <label className="avatar-upload-input-label" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+                <FolderIcon size={16} /> Upload Custom Picture
                 <input 
                   type="file" 
                   accept="image/*" 
@@ -557,14 +572,16 @@ export default function ProfilePage() {
               <div style={{ textAlign: 'center', margin: '14px 0 6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}>
                 Or choose a preset theme:
               </div>
-              <div className="avatar-presets-grid">
-                {['🍕', '🍔', '🍜', '🍰', '🥑', '🥗', '☕', '🍣', '👩‍🍳', '👨‍🍳', '🦁', '🦊'].map((emoji) => (
+              <div className="avatar-presets-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
+                {avatarPresets.map((preset) => (
                   <button 
-                    key={emoji}
-                    className={`avatar-preset-btn ${user.avatar === emoji ? 'selected' : ''}`}
-                    onClick={() => handleSelectPresetAvatar(emoji)}
+                    key={preset.id}
+                    className={`avatar-preset-btn ${user.avatar === preset.img ? 'selected' : ''}`}
+                    onClick={() => handleSelectPresetAvatar(preset.img)}
+                    style={{ padding: '4px', borderRadius: '50%', overflow: 'hidden', border: user.avatar === preset.img ? '2.5px solid var(--primary)' : '1px solid var(--border-color)', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s', backgroundColor: 'var(--bg-main)' }}
+                    title={preset.label}
                   >
-                    {emoji}
+                    <img src={preset.img} alt={preset.label} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
                   </button>
                 ))}
               </div>

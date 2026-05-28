@@ -444,7 +444,13 @@ export default function ProfilePage() {
                     transition: 'all var(--transition-fast)'
                   }}
                 >
-                  <span style={{ fontSize: '0.85rem', fontWeight: 500, color: address === addr ? 'var(--primary)' : 'inherit' }}>
+                  <span style={{ 
+                    fontSize: '0.85rem', 
+                    fontWeight: 500, 
+                    color: address === addr ? 'var(--primary)' : 'inherit',
+                    flex: 1,
+                    wordBreak: 'break-word'
+                  }}>
                     {addr}
                   </span>
                   

@@ -206,7 +206,10 @@ export default function MapSelector({ onClose, onConfirm, initialLat, initialLng
                   border: '1px dashed var(--primary)'
                 }}
               >
-                📡 {locatingGPS ? 'Pinpointing GPS Coordinates...' : 'Use My Current Live Geolocation'}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                  <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                </svg>
+                {locatingGPS ? 'Pinpointing GPS Coordinates...' : 'Use My Current Live Geolocation'}
               </button>
             )}
 

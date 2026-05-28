@@ -7,7 +7,7 @@ import { createClient } from '@/utils/supabase/client';
 import { defaultRestaurants, defaultCategories, defaultCatalog, Restaurant, CatalogItem } from '@/utils/fallbackData';
 import { useUser } from '@/context/UserContext';
 import { useCart } from '@/context/CartContext';
-import { StarIcon, ClockIcon, MapPinIcon, BellIcon, PlateForkIcon, NoodlesIcon, SparklesIcon, WaveIcon } from '@/components/Icons';
+import { StarIcon, ClockIcon, MapPinIcon, BellIcon, PlateForkIcon, NoodlesIcon, SparklesIcon, WaveIcon, SearchIcon } from '@/components/Icons';
 
 export default function Home() {
   const router = useRouter();
@@ -21,6 +21,14 @@ export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [cartCount, setCartCount] = useState(0);
+  const [mobileSearchVal, setMobileSearchVal] = useState('');
+
+  const handleMobileSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mobileSearchVal.trim()) {
+      router.push(`/search?q=${encodeURIComponent(mobileSearchVal.trim())}`);
+    }
+  };
 
   // Auto-slide carousel effect
   useEffect(() => {
@@ -138,6 +146,23 @@ export default function Home() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" style={{ color: '#FFD600', marginRight: '4px' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span>12 MINS DELIVERY</span>
         </div>
+      </div>
+
+      {/* Mobile Prominent Search Bar */}
+      <div className="mobile-search-bar-wrapper">
+        <form onSubmit={handleMobileSearchSubmit} className="search-bar-container">
+          <input
+            type="text"
+            placeholder="Search food, restaurants, groceries..."
+            className="search-bar-input"
+            value={mobileSearchVal}
+            onChange={(e) => setMobileSearchVal(e.target.value)}
+            onFocus={() => {
+              router.push('/search');
+            }}
+          />
+          <SearchIcon className="search-bar-icon" size={18} />
+        </form>
       </div>
       {/* Promos Banner Slideshow */}
       <div className="playful-carousel-container">
@@ -320,7 +345,7 @@ export default function Home() {
               <BellIcon size={28} style={{ color: 'var(--primary)' }} />
               <h3 className="section-title" style={{ margin: 0 }}>Price Drop Zone</h3>
             </div>
-            <div className="product-list-row">
+            <div className="product-list-row price-drop-row">
               {catalog.filter(i => ['fresh-milk', 'sliced-bread', 'ib-french-fries', 'ib-burger-veg'].includes(i.id)).map(item => {
                 const itemQty = cart[item.id] || 0;
                 const originalPrice = item.price * 1.4; // Simulate a 40% higher original price

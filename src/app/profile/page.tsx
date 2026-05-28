@@ -286,9 +286,16 @@ export default function ProfilePage() {
             )}
 
             {user.isLoggedIn ? (
-              <button onClick={handleLogoutClick} className="profile-logout-btn">
-                Log Out Profile
-              </button>
+              <>
+                <button onClick={handleLogoutClick} className="profile-logout-btn">
+                  Log Out Profile
+                </button>
+                <Link href="/admin" style={{ display: 'block', marginTop: '12px' }}>
+                  <button className="checkout-btn" style={{ background: 'var(--accent)', padding: '10px', width: '100%', fontSize: '0.85rem' }}>
+                    Open Admin Dashboard
+                  </button>
+                </Link>
+              </>
             ) : (
               <Link href="/auth" style={{ display: 'block' }}>
                 <button className="checkout-btn" style={{ padding: '10px' }}>

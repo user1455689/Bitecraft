@@ -138,18 +138,21 @@ button:active,
   background: var(--text-light);
 }
 
-/* Main Container Shell */
+/* Main Container Shell - Mobile-First Frame Centered */
 .app-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-bottom: 70px; /* Space for mobile nav */
-}
-
-@media (min-width: 769px) {
-  .app-wrapper {
-    padding-bottom: 0;
-  }
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bg-surface);
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
+  padding-bottom: 76px; /* Space for mobile nav */
 }
 
 .main-content {
@@ -157,12 +160,15 @@ button:active,
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 16px 12px;
 }
 
-@media (max-width: 768px) {
-  .main-content {
-    padding: 16px 12px;
+@media (min-width: 481px) {
+  body {
+    background-color: #0b111e !important;
+    background-image: radial-gradient(circle at top right, rgba(235, 94, 40, 0.08), transparent),
+                      radial-gradient(circle at bottom left, rgba(16, 138, 74, 0.08), transparent) !important;
+    background-attachment: fixed;
   }
 }
 
@@ -171,6 +177,9 @@ button:active,
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
   background-color: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -348,31 +357,31 @@ button:active,
   filter: brightness(1.05);
 }
 
-@media (max-width: 768px) {
-  .navbar-center {
-    display: none !important;
-  }
-  .navbar-right .nav-link:not(.theme-toggle-btn) {
-    display: none !important;
-  }
-  .navbar-right {
-    gap: 4px;
-  }
-  .address-selector {
-    max-width: 140px;
-  }
-  .navbar-container {
-    gap: 8px;
-    padding: 10px 12px;
-  }
+.navbar-center {
+  display: none !important;
+}
+.navbar-right .nav-link:not(.theme-toggle-btn) {
+  display: none !important;
+}
+.navbar-right {
+  gap: 4px;
+}
+.address-selector {
+  max-width: 140px;
+}
+.navbar-container {
+  gap: 8px;
+  padding: 10px 12px;
 }
 
 /* Mobile Sticky Bottom Nav */
 .mobile-nav {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
   z-index: 100;
   height: calc(64px + env(safe-area-inset-bottom, 0px));
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -385,12 +394,6 @@ button:active,
   justify-content: space-around;
   box-shadow: var(--glass-shadow);
   transition: background-color var(--transition-normal), border-color var(--transition-normal);
-}
-
-@media (min-width: 769px) {
-  .mobile-nav {
-    display: none;
-  }
 }
 
 .mobile-nav-item {
@@ -2384,12 +2387,12 @@ button:active,
 /* Floating Scooter Progress Bar */
 .scooter-progress-container {
   position: fixed;
-  bottom: 80px;
+  bottom: 140px; /* sit above cart pill */
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-  width: 90%;
-  max-width: 500px;
+  width: calc(100% - 32px);
+  max-width: 448px;
   background-color: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -2442,8 +2445,9 @@ button:active,
 /* Floating Checkout Cart Button */
 .floating-cart-pill {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 80px; /* sit above bottom nav */
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 999;
   background: linear-gradient(135deg, #108A4A, #0E753E);
   color: white;
@@ -2456,18 +2460,21 @@ button:active,
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
+  width: calc(100% - 32px);
+  max-width: 448px;
+  justify-content: space-between;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation: slide-in-cart 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .floating-cart-pill:hover {
-  transform: translateY(-2px) scale(1.04);
+  transform: translate(-50%, -2px) scale(1.02);
   box-shadow: 0 12px 28px rgba(16, 138, 74, 0.4);
 }
 
 @keyframes slide-in-cart {
-  from { transform: translateY(100px) scale(0.8); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  from { transform: translate(-50%, 100px) scale(0.8); opacity: 0; }
+  to { transform: translate(-50%, 0) scale(1); opacity: 1; }
 }
 
 .floating-cart-icon {
